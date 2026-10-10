@@ -5,6 +5,8 @@
 (function() {
     'use strict';
 
+    let paused = false;
+
     function enableAllElements() {
         // Target inputs, textareas, selects, buttons, and custom containers
         const disabledElements = document.querySelectorAll('[disabled], [readonly]');
@@ -18,15 +20,32 @@
         });
 
         if (count > 0) {
-            console.log(`[Coursedog Enabler] Successfully enabled ${count} elements.`);
+            console.log(`[Coursedodge] Successfully enabled ${count} elements.`);
         }
     }
 
-    // Run immediately upon load
-    enableAllElements();
+    // Load saved pause state, then run once if not paused
+    chrome.storage.local.get({ paused: false }, (result) => {
+        paused = result.paused;
+        if (!paused) {
+            enableAllElements();
+        }
+    });
+
+    // Keep pause state in sync when toggled from the popup
+    chrome.storage.onChanged.addListener((changes, area) => {
+        if (area === 'local' && changes.paused) {
+            paused = changes.paused.newValue;
+            if (!paused) {
+                enableAllElements();
+            }
+        }
+    });
 
     // Observe dynamic DOM changes (since Coursedog is a heavy Single Page App / React app)
     const observer = new MutationObserver((mutations) => {
+        if (paused) return;
+
         let shouldCheck = false;
         for (let mutation of mutations) {
             if (mutation.addedNodes.length > 0) {
@@ -44,7 +63,7 @@
         subtree: true
     });
 
-    // Listen for messages from popup toggle button
+    // Listen for messages from popup button (manual enable works even while paused)
     chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         if (request.action === "forceEnable") {
             enableAllElements();
