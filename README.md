@@ -15,8 +15,10 @@ This is a Chrome extension that disables that disabling.
 
 ## Usage
 
-Go about your normal business in Coursedog and you'll see that you can now highlight and copy text to the clipboard.
+1. Go to a course or a proposal in the Coursedog website
+2. Notice that you can't select text for copying to the clipboard
+3. Press the Coursedodge extension's icon in the toolbar (it looks like a lock)
+4. Click "Enable Selecting"
 
-You'll have to be aware that changing the text on the page is not actually changing the course/proposal. If 
-you think that's too confusing, you can always turn off the extension by clicking the "Extensions" puzzle piece icon on the Chrome
-toolbar.
+If the ability to select (and accidentally change text) worries you, you can just reload the page. 
+Everything will be locked again.

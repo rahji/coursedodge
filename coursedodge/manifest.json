@@ -2,11 +2,10 @@
   "manifest_version": 3,
   "name": "Coursedodge",
   "version": "1.0",
-  "description": "Removes 'disable' attributes on coursedog.com domains.",
+  "description": "Removes 'disable' attributes on coursedog.com domains when the button is pressed.",
   "permissions": [
     "activeTab",
-    "scripting",
-    "storage"
+    "scripting"
   ],
   "action": {
     "default_popup": "popup.html",
